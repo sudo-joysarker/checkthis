@@ -1,0 +1,143 @@
+:root {
+  --bg:        #D9A0A8;
+  --card:      #FFFFFF;
+  --text:      #3A2C2E;
+  --text-dim:  #8C6B70;
+  --btn-bg:    #FFFFFF;
+  --btn-text:  #3A2C2E;
+  --btn-shadow: rgba(0,0,0,0.12);
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  font-family: 'Poppins', sans-serif;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+.stage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.art-frame {
+  width: 160px;
+  height: 160px;
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 0;
+}
+.art-frame.bump { animation: bump 0.45s ease; }
+@keyframes bump {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  35%      { transform: scale(1.10) rotate(-4deg); }
+  65%      { transform: scale(0.97) rotate(3deg); }
+}
+.art-frame img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 16px; }
+.art-frame svg { width: 100%; height: 100%; display: block; }
+
+h1#question {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 0 6px;
+  max-width: 380px;
+  line-height: 1.35;
+  transition: opacity 0.2s;
+}
+
+.sub {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--text-dim);
+  margin: 0 0 22px;
+  transition: opacity 0.2s;
+}
+
+.btn-row {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: 44px;
+}
+
+.btn {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 0.82rem;
+  border: none;
+  border-radius: 50px;
+  padding: 9px 22px;
+  cursor: pointer;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  box-shadow: 0 4px 12px var(--btn-shadow);
+  transition: transform 0.18s, box-shadow 0.18s, padding 0.3s, font-size 0.3s, background 0.3s, color 0.3s;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px var(--btn-shadow); }
+.btn:active { transform: translateY(0); }
+
+.btn-yes {
+  background: #FFFFFF;
+}
+
+.btn-no {
+  position: relative;
+}
+
+/* No button escaping to a corner of the viewport, as it gets clicked more */
+.btn-no.escaped {
+  position: fixed;
+  z-index: 40;
+}
+
+/* ===== Final state ===== */
+.is-final .btn-row,
+.is-final .art-frame { animation: none; }
+.is-final .btn-row { display: none; }
+
+/* ===== Confetti ===== */
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 50;
+}
+.confetti span {
+  position: absolute;
+  top: -10px;
+  font-size: 1.2rem;
+  animation: fall linear forwards;
+  will-change: transform;
+}
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(360deg); opacity: 0.9; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .art-frame.bump { animation: none; }
+  .confetti span { animation: none; display: none; }
+}
+
+@media (max-width: 420px) {
+  .art-frame { width: 120px; height: 120px; }
+  h1#question { font-size: 1.1rem; }
+}
